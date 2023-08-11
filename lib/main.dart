@@ -13,7 +13,7 @@ class TikTokApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: const Color(0xFFE9435A),
       ),
       home: Container(),
     );
