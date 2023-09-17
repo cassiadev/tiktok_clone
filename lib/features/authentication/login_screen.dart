@@ -15,12 +15,12 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+      body: const SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(
+          padding: EdgeInsets.symmetric(
               horizontal: Sizes.size40),
           child: Column(
-            children: const [
+            children: [
               Gaps.v80,
               Text('Log in to TikTok',
                 style: TextStyle(

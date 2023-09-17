@@ -3,6 +3,8 @@ import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/authentication/widgets/form_button.dart';
 
+import 'email_screen.dart';
+
 class UsernameScreen extends StatefulWidget {
   const UsernameScreen({super.key});
 
@@ -18,14 +20,25 @@ class _UsernameScreenState extends State<UsernameScreen> {
   @override
   void initState() {
     super.initState();
-
     _usernameController.addListener(() {
       print(_usernameController.text);
-
       setState(() {
         _username = _usernameController.text;
       });
     });
+  }
+
+  @override
+  void dispose() {
+    _usernameController.dispose(); // Deletes event listeners regarding _usernameController so that memory leak does not happen
+    super.dispose(); // Since initState() starts with super.initState(), when disposing super.dispose() should be at last
+  }
+
+  void _onNextTap() {
+    if (_username.isEmpty) return;
+    Navigator.of(context).push( // Since it is inside the State in a StatefulWidget, there is no need for _onNextTap to have a BuildContext parameter
+      MaterialPageRoute(builder: (context) => const EmailScreen()),
+    );
   }
 
   @override
@@ -72,7 +85,10 @@ class _UsernameScreenState extends State<UsernameScreen> {
               cursorColor: Theme.of(context).primaryColor,
             ),
             Gaps.v16,
-            FormButton(disabled: _username.isEmpty),
+            GestureDetector(
+              onTap: _onNextTap, // Since it is inside the State in a StatefulWidget, there is no need for _onNextTap to have a BuildContext parameter
+              child: FormButton(disabled: _username.isEmpty),
+            ),
           ],
         ),
       ),
