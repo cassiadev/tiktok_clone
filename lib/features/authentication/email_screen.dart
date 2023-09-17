@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/authentication/password_screen.dart';
 import 'package:tiktok_clone/features/authentication/widgets/form_button.dart';
 
 class EmailScreen extends StatefulWidget {
@@ -11,68 +12,97 @@ class EmailScreen extends StatefulWidget {
 }
 
 class _EmailScreenState extends State<EmailScreen> {
-  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
 
-  String _username = '';
+  String _email = '';
 
   @override
   void initState() {
     super.initState();
-    _usernameController.addListener(() {
-      print(_usernameController.text);
+    _emailController.addListener(() {
+      print(_emailController.text);
       setState(() {
-        _username = _usernameController.text;
+        _email = _emailController.text;
       });
     });
   }
 
   @override
   void dispose() {
-    _usernameController.dispose(); // Deletes event listeners regarding _usernameController so that memory leak does not happen
+    _emailController.dispose(); // Deletes event listeners regarding _emailController so that memory leak does not happen
     super.dispose(); // Since initState() starts with super.initState(), when disposing super.dispose() should be at last
+  }
+
+  String? _isEmailValid() {
+    if (_email.isEmpty) return null;
+    final regExp = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+    if (!regExp.hasMatch(_email)) {
+      return 'Email not valid';
+    }
+    return null;
+  }
+
+  void _onScaffoldTap() {
+    FocusScope.of(context).unfocus();
+  }
+
+  void _onSubmit() {
+    if (_email.isEmpty || _isEmailValid() != null) return;
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const PasswordScreen()
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Sign up',),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Sizes.size36),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Gaps.v40,
-            const Text('What is your email?',
-              style: TextStyle(
-                fontSize: Sizes.size24,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            Gaps.v16,
-            TextField(
-              controller: _usernameController,
-              decoration: InputDecoration(
-                hintText: 'Email',
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.grey.shade400,
-                  ),
-                ),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.grey.shade400,
-                  ),
+    return GestureDetector(
+      onTap: _onScaffoldTap,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Sign up',),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: Sizes.size36),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Gaps.v40,
+              const Text('What is your email?',
+                style: TextStyle(
+                  fontSize: Sizes.size24,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
-              cursorColor: Theme.of(context).primaryColor,
-            ),
-            Gaps.v16,
-            GestureDetector(
-              child: FormButton(disabled: _username.isEmpty),
-            ),
-          ],
+              Gaps.v16,
+              TextField(
+                controller: _emailController,
+                keyboardType: TextInputType.emailAddress,
+                autocorrect: false,
+                onEditingComplete: _onSubmit, // For the function when 'done' is pressed on the keyboard, onSubmitted is useful when we do not know what the value is, but now we know what the value is so onEditingComplete is better which does not need a parameter
+                decoration: InputDecoration(
+                  hintText: 'Email',
+                  errorText: _isEmailValid(),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.grey.shade400,
+                    ),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.grey.shade400,
+                    ),
+                  ),
+                ),
+                cursorColor: Theme.of(context).primaryColor,
+              ),
+              Gaps.v28,
+              GestureDetector(
+                onTap: _onSubmit,
+                  child: FormButton(disabled: _email.isEmpty || _isEmailValid() != null)
+              ),
+            ],
+          ),
         ),
       ),
     );
