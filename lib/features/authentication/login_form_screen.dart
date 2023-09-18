@@ -14,49 +14,93 @@ class LoginFormScreen extends StatefulWidget {
 class _LoginFormScreenState extends State<LoginFormScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>(); // A Form needs a GlobalKey as a identifier so as to access to Form's State and run the method regarding the Form
 
+  Map<String, String> formData = {};
+
   void _onSubmitTap() {
-    _formKey.currentState?.validate(); // This one line can validate every TextormField at once
+    if (_formKey.currentState != null) {
+      if (_formKey.currentState!.validate()) { // validate() validates every TextFormField at once
+        _formKey.currentState!.save(); // save() runs a callback function onSaved towards each text input, given that all the inputs have no error
+        print(formData.values);
+      }
+    }
+  }
+
+  void _onScaffoldTap() {
+    FocusScope.of(context).unfocus();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Log in'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Sizes.size36),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              Gaps.v28,
-              TextFormField(
-                decoration: const InputDecoration(
-                  hintText: 'Email',
+    return GestureDetector(
+      onTap: _onScaffoldTap,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Log in'),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: Sizes.size36),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                Gaps.v28,
+                TextFormField(
+                  decoration: InputDecoration(
+                    hintText: 'Email',
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.grey.shade400,
+                      ),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.grey.shade400,
+                      ),
+                    ),
+                  ),
+                  validator: (value) {
+                    return null;
+                  },
+                  onSaved: (postedValue) {
+                    if (postedValue != null) {
+                      formData['email'] = postedValue;
+                    }
+                  },
                 ),
-                validator: (value) {
-                  return 'I don\'t like your email ';
-                },
-              ),
-              Gaps.v16,
-              TextFormField(
-                decoration: const InputDecoration(
-                  hintText: 'Password',
+                Gaps.v16,
+                TextFormField(
+                  decoration: InputDecoration(
+                    hintText: 'Password',
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.grey.shade400,
+                      ),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.grey.shade400,
+                      ),
+                    ),
+                  ),
+                  validator: (value) {
+                    return null;
+                  },
+                  onSaved: (postedValue) {
+                    if (postedValue != null) {
+                      formData['password'] = postedValue;
+                    }
+                  },
                 ),
-                validator: (value) {
-                  return 'I don\'t like your password ';
-                },
-              ),
-              Gaps.v28,
-              GestureDetector(
-                onTap: _onSubmitTap,
-                child: const FormButton(
-                  disabled: false,
-                  text: 'Log in',
+                Gaps.v28,
+                GestureDetector(
+                  onTap: _onSubmitTap,
+                  child: const FormButton(
+                    disabled: false,
+                    text: 'Log in',
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
