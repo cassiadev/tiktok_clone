@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/authentication/widgets/form_button.dart';
+import 'package:tiktok_clone/features/onboarding/interests_screen.dart';
 
 import 'email_screen.dart';
 
@@ -34,7 +35,8 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
 
   void _onNextTap() {
     Navigator.of(context).push( // Since it is inside the State in a StatefulWidget, there is no need for _onNextTap to have a BuildContext parameter
-      MaterialPageRoute(builder: (context) => const EmailScreen()),
+      MaterialPageRoute(builder: (context) => const InterestsScreen()
+      ),
     );
   }
 
