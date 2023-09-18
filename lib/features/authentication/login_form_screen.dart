@@ -12,6 +12,12 @@ class LoginFormScreen extends StatefulWidget {
 }
 
 class _LoginFormScreenState extends State<LoginFormScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>(); // A Form needs a GlobalKey as a identifier so as to access to Form's State and run the method regarding the Form
+
+  void _onSubmitTap() {
+    _formKey.currentState?.validate(); // This one line can validate every TextormField at once
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,15 +27,34 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: Sizes.size36),
         child: Form(
+          key: _formKey,
           child: Column(
             children: [
-              TextFormField(),
-              Gaps.v16,
-              TextFormField(),
               Gaps.v28,
-              const FormButton(
-                disabled: false,
-                text: 'Next',
+              TextFormField(
+                decoration: const InputDecoration(
+                  hintText: 'Email',
+                ),
+                validator: (value) {
+                  return 'I don\'t like your email ';
+                },
+              ),
+              Gaps.v16,
+              TextFormField(
+                decoration: const InputDecoration(
+                  hintText: 'Password',
+                ),
+                validator: (value) {
+                  return 'I don\'t like your password ';
+                },
+              ),
+              Gaps.v28,
+              GestureDetector(
+                onTap: _onSubmitTap,
+                child: const FormButton(
+                  disabled: false,
+                  text: 'Log in',
+                ),
               ),
             ],
           ),
