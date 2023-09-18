@@ -91,7 +91,10 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
             Gaps.v16,
             GestureDetector(
               onTap: _onNextTap, // Since it is inside the State in a StatefulWidget, there is no need for _onNextTap to have a BuildContext parameter
-              child: const FormButton(disabled: false),
+              child: const FormButton(
+                disabled: false,
+                text: 'Next',
+              ),
             ),
           ],
         ),

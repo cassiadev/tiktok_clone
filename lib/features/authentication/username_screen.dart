@@ -87,7 +87,10 @@ class _UsernameScreenState extends State<UsernameScreen> {
             Gaps.v16,
             GestureDetector(
               onTap: _onNextTap, // Since it is inside the State in a StatefulWidget, there is no need for _onNextTap to have a BuildContext parameter
-              child: FormButton(disabled: _username.isEmpty),
+              child: FormButton(
+                disabled: _username.isEmpty,
+                text: 'Next',
+              ),
             ),
           ],
         ),
