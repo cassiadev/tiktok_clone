@@ -23,7 +23,7 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
   void initState() {
     super.initState();
     DateTime now = DateTime.now();
-    initialDate = DateTime(now.year - 12);
+    initialDate = DateTime(now.year - 12, now.month, now.day);
     _setTextFieldDate(initialDate);
   }
 
