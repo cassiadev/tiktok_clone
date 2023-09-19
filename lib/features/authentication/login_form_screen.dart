@@ -3,6 +3,7 @@ import 'package:tiktok_clone/features/authentication/widgets/form_button.dart';
 
 import '../../constants/gaps.dart';
 import '../../constants/sizes.dart';
+import '../onboarding/interests_screen.dart';
 
 class LoginFormScreen extends StatefulWidget {
   const LoginFormScreen({super.key});
@@ -20,7 +21,10 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
     if (_formKey.currentState != null) {
       if (_formKey.currentState!.validate()) { // validate() validates every TextFormField at once
         _formKey.currentState!.save(); // save() runs a callback function onSaved towards each text input, given that all the inputs have no error
-        print(formData.values);
+        Navigator.of(context).push( // Since it is inside the State in a StatefulWidget, there is no need for _onNextTap to have a BuildContext parameter
+          MaterialPageRoute(builder: (context) => const InterestsScreen()
+          ),
+        );
       }
     }
   }
@@ -59,6 +63,9 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
                     ),
                   ),
                   validator: (value) {
+                    if (value != null && value.isEmpty) {
+                      return 'Please write your email';
+                    };
                     return null;
                   },
                   onSaved: (postedValue) {
@@ -83,6 +90,9 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
                     ),
                   ),
                   validator: (value) {
+                    if (value != null && value.isEmpty) {
+                      return 'Please write your password';
+                    };
                     return null;
                   },
                   onSaved: (postedValue) {
