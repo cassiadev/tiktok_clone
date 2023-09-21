@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tiktok_clone/features/onboarding/widgets/interest_button.dart';
 
 import '../../constants/gaps.dart';
 import '../../constants/sizes.dart';
@@ -53,13 +54,26 @@ class InterestsScreen extends StatefulWidget {
 
 class _InterestsScreenState extends State<InterestsScreen> {
   final ScrollController _scrollController = ScrollController();
+  bool _showTitle = false;
+
+  void _onScroll() {
+    if (_scrollController.offset > 100) {
+      if(_showTitle) return; // Will run the setState() only once
+      setState(() {
+        _showTitle = true;
+      });
+    } else {
+      setState(() {
+        _showTitle = false;
+      });
+    }
+    print(_scrollController.offset);
+  }
 
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(() {
-      print(_scrollController.offset);
-    });
+    _scrollController.addListener(_onScroll);
   }
 
   @override
@@ -72,7 +86,10 @@ class _InterestsScreenState extends State<InterestsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Choose your interests',
+        title: AnimatedOpacity(
+          opacity: _showTitle ? 1 : 0,
+          duration: const Duration(microseconds: 300),
+          child: const Text('Choose your interests',),
         ),
       ),
       body: Scrollbar(
@@ -106,28 +123,7 @@ class _InterestsScreenState extends State<InterestsScreen> {
                   runSpacing: 15, // vertical spacing
                   spacing: 15, // horizontal spacing
                   children: [
-                    for (var interest in interests) Container(
-                      padding: const EdgeInsets.symmetric(vertical: Sizes.size16, horizontal: Sizes.size24),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                            color: Colors.black.withOpacity(0.1),
-                          ),
-                          borderRadius: BorderRadius.circular(Sizes.size32),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.05),
-                              blurRadius: 5,
-                              spreadRadius: 5,
-                            ),
-                          ]
-                      ),
-                      child: Text(interest,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
+                    for (var interest in interests) InterestButton(interest: interest)
                   ],
                 ),
               ],
