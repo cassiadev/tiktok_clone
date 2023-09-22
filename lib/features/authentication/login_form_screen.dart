@@ -21,9 +21,14 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
     if (_formKey.currentState != null) {
       if (_formKey.currentState!.validate()) { // validate() validates every TextFormField at once
         _formKey.currentState!.save(); // save() runs a callback function onSaved towards each text input, given that all the inputs have no error
-        Navigator.of(context).push( // Since it is inside the State in a StatefulWidget, there is no need for _onNextTap to have a BuildContext parameter
-          MaterialPageRoute(builder: (context) => const InterestsScreen()
+        Navigator.of(context).pushAndRemoveUntil( // Since this Navigator is inside the State in a StatefulWidget, there is no need for _onNextTap to have a BuildContext parameter
+          MaterialPageRoute(
+            builder: (context) => const InterestsScreen(),
           ),
+          (route) {
+            print(route);
+            return false; // After logged in the previous screens should not be able to access back so pushAndRemoveUntil() is used with predicate returning false
+          },
         );
       }
     }

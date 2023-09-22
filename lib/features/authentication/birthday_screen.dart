@@ -34,9 +34,11 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
   }
 
   void _onNextTap() {
-    Navigator.of(context).push( // Since it is inside the State in a StatefulWidget, there is no need for _onNextTap to have a BuildContext parameter
-      MaterialPageRoute(builder: (context) => const InterestsScreen()
+    Navigator.of(context).pushAndRemoveUntil( // Since it is inside the State in a StatefulWidget, there is no need for _onNextTap to have a BuildContext parameter
+      MaterialPageRoute(
+        builder: (context) => const InterestsScreen(),
       ),
+        (route) => false,
     );
   }
 

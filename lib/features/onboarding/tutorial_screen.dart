@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tiktok_clone/features/main_navigation/main_navigation_screen.dart';
 
 import '../../constants/gaps.dart';
 import '../../constants/sizes.dart';
@@ -44,6 +45,15 @@ class _TutorialScreenState extends State<TutorialScreen> {
     }
   }
 
+  void _onEnterAppTap() {
+    Navigator.of(context).pushAndRemoveUntil( // Since this Navigator is inside the State in a StatefulWidget, there is no need for _onNextTap to have a BuildContext parameter
+      MaterialPageRoute(
+        builder: (context) => const MainNavigationScreen(),
+      ),
+      (route) => false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -51,7 +61,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
       onPanEnd: _onPanEnd, // After the finger is off the screen
       child: Scaffold(
         body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: Sizes.size24),
+          padding: const EdgeInsets.symmetric(horizontal: Sizes.size24),
           child: SafeArea(
             child: AnimatedCrossFade( // Puts in fade-in or fade-out effect between two compoments
               firstChild: const Column(
@@ -101,10 +111,10 @@ class _TutorialScreenState extends State<TutorialScreen> {
           child: Padding(
             padding: const EdgeInsets.all(Sizes.size24,),
             child: AnimatedOpacity(
-              duration: Duration(milliseconds: 300),
+              duration: const Duration(milliseconds: 300),
               opacity: _pageShowing == Page.first ? 0 : 1,
               child: CupertinoButton(
-                onPressed: () {},
+                onPressed: _pageShowing == Page.second ? _onEnterAppTap : () {},
                 color: Theme.of(context).primaryColor,
                 child: const Text('Enter the App'),
               ),
