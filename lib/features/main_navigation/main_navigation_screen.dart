@@ -39,46 +39,18 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: screens[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.shifting, // Default BottomNavigationBarType is shifting but fixed also exists
-        currentIndex: _selectedIndex,
-        onTap: _onTap,
-        selectedItemColor: Theme.of(context).primaryColor,
-        items: const [
-          BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.house),
+      bottomNavigationBar: NavigationBar( // NavigationBar is a Material 3 component
+        selectedIndex: _selectedIndex,
+        onDestinationSelected: _onTap,
+        labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
+        destinations: const [
+          NavigationDestination(
+            icon: FaIcon(FontAwesomeIcons.house, color: Colors.white,),
             label: 'Home',
-            // activeIcon: ,
-            // backgroundColor: Colors.amber, // Changes the background color of whole BottomNavigationBar which has four or more BottomNavigationBarItem automatically
-            tooltip: 'What are you?',
           ),
-          BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.magnifyingGlass),
+          NavigationDestination(
+            icon: FaIcon(FontAwesomeIcons.magnifyingGlass, color: Colors.white,),
             label: 'Search',
-            // activeIcon: ,
-            // backgroundColor: Colors.blue,
-            tooltip: 'What are you?',
-          ),
-          BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.magnifyingGlass),
-            label: 'Search',
-            // activeIcon: ,
-            // backgroundColor: Colors.pink,
-            tooltip: 'What are you?',
-          ),
-          BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.magnifyingGlass),
-            label: 'Search',
-            // activeIcon: ,
-            // backgroundColor: Colors.yellow,
-            tooltip: 'What are you?',
-          ),
-          BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.magnifyingGlass),
-            label: 'Search',
-            // activeIcon: ,
-            // backgroundColor: Colors.teal,
-            tooltip: 'What are you?',
           ),
         ],
       ),
