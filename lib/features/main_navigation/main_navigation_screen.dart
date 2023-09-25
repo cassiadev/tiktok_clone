@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -37,23 +38,20 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: screens[_selectedIndex],
-      bottomNavigationBar: NavigationBar( // NavigationBar is a Material 3 component
-        selectedIndex: _selectedIndex,
-        onDestinationSelected: _onTap,
-        labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
-        destinations: const [
-          NavigationDestination(
-            icon: FaIcon(FontAwesomeIcons.house, color: Colors.white,),
+    return CupertinoTabScaffold( // No need to manage _onTap and state but just render the screen of each index correctly
+      tabBar: CupertinoTabBar(
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.house,),
             label: 'Home',
           ),
-          NavigationDestination(
-            icon: FaIcon(FontAwesomeIcons.magnifyingGlass, color: Colors.white,),
+          BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.search,),
             label: 'Search',
           ),
         ],
       ),
+      tabBuilder: (context, index) => screens[index],
     );
   }
 }
