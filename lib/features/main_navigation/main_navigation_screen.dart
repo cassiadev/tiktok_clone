@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/features/main_navigation/stf_screen.dart';
 import 'package:tiktok_clone/features/main_navigation/widgets/nav_tab.dart';
+import 'package:tiktok_clone/features/main_navigation/widgets/post_video_button.dart';
 
 import '../../constants/sizes.dart';
 
@@ -22,26 +23,39 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     });
   }
 
+  void _onPostVideoButtonTap() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => Scaffold(
+          appBar: AppBar(
+            title: const Text('Record video'),
+          ),
+        ),
+        fullscreenDialog: true,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
           Offstage( // Creates a widget that visually hides its child
-            child: StfScreen(),
             offstage: _selectedIndex != 0,
+            child: const StfScreen(),
           ),
-          Offstage( // Creates a widget that visually hides its child
-            child: StfScreen(),
+          Offstage(
             offstage: _selectedIndex != 1,
+            child: const StfScreen(),
           ),
-          Offstage( // Creates a widget that visually hides its child
-            child: StfScreen(),
+          Offstage(
             offstage: _selectedIndex != 3,
+            child: const StfScreen(),
           ),
-          Offstage( // Creates a widget that visually hides its child
-            child: StfScreen(),
+          Offstage(
             offstage: _selectedIndex != 4,
+            child: const StfScreen(),
           ),
         ],
       ),
@@ -67,52 +81,9 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                 onTap: () => _onTap(1),
               ),
               Gaps.h24,
-              Stack(
-                clipBehavior: Clip.none, // Does not clip the supposed-to-be clipped one
-                children: [
-                  Positioned( // Moves the widget surrounded
-                    right: 20,
-                    child: Container(
-                      height: 35,
-                      width: 25,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: Sizes.size8,
-                      ),
-                      decoration: BoxDecoration(
-                        color: const Color(0xff61D4F0),
-                        borderRadius: BorderRadius.circular(Sizes.size8),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 20,
-                    child: Container(
-                      height: 35,
-                      width: 25,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: Sizes.size8,
-                      ),
-                      decoration: BoxDecoration(
-                        color:Theme.of(context).primaryColor,
-                        borderRadius: BorderRadius.circular(Sizes.size8),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    height: 35,
-                    padding: const EdgeInsets.symmetric(horizontal: Sizes.size12),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(Sizes.size6),
-                    ),
-                    child: const Center(
-                      child: FaIcon(FontAwesomeIcons.plus,
-                        color: Colors.black,
-                        size: Sizes.size16 + Sizes.size2,
-                      ),
-                    ),
-                  ),
-                ],
+              GestureDetector(
+                onTap: _onPostVideoButtonTap,
+                child: const PostVideoButton(),
               ),
               Gaps.h24,
               NavTab(
