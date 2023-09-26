@@ -3,7 +3,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/features/main_navigation/stf_screen.dart';
 import 'package:tiktok_clone/features/main_navigation/widgets/nav_tab.dart';
 
-import '../../constants/gaps.dart';
 import '../../constants/sizes.dart';
 
 class MainNavigationScreen extends StatefulWidget {
@@ -16,24 +15,6 @@ class MainNavigationScreen extends StatefulWidget {
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
   int _selectedIndex = 0;
 
-  final screens = [
-    StfScreen(key: GlobalKey(),),
-    StfScreen(key: GlobalKey(),),
-    // const Center(
-    //   child: Text('Home'),
-    // ),
-    // const Center(
-    //   child: Text('Discover'),
-    // ),
-    Container(),
-    const Center(
-      child: Text('Inbox'),
-    ),
-    const Center(
-      child: Text('Profile'),
-    ),
-  ];
-
   void _onTap(int index) {
     setState(() {
       _selectedIndex = index;
@@ -43,7 +24,26 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: screens.elementAt(_selectedIndex),
+      body: Stack(
+        children: [
+          Offstage( // Creates a widget that visually hides its child
+            child: StfScreen(),
+            offstage: _selectedIndex != 0,
+          ),
+          Offstage( // Creates a widget that visually hides its child
+            child: StfScreen(),
+            offstage: _selectedIndex != 1,
+          ),
+          Offstage( // Creates a widget that visually hides its child
+            child: StfScreen(),
+            offstage: _selectedIndex != 3,
+          ),
+          Offstage( // Creates a widget that visually hides its child
+            child: StfScreen(),
+            offstage: _selectedIndex != 4,
+          ),
+        ],
+      ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.black,
         child: Padding(
