@@ -9,6 +9,7 @@ class VideoTimelineScreen extends StatefulWidget {
 
 class _VideoTimelineScreenState extends State<VideoTimelineScreen> {
   int _itemCount = 4;
+  final PageController _pageController = PageController();
 
   List<Color> colors = [
     Colors.blue,
@@ -18,6 +19,11 @@ class _VideoTimelineScreenState extends State<VideoTimelineScreen> {
   ];
 
   void _onPageChanged(int pageNum) {
+    _pageController.animateToPage(
+        pageNum,
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.linear
+    );
     if (pageNum == _itemCount - 1) {
       _itemCount = _itemCount + 4;
       colors.addAll([
@@ -36,6 +42,7 @@ class _VideoTimelineScreenState extends State<VideoTimelineScreen> {
       pageSnapping: true, // If pageSnapping is set false, the sticky page snap does not happen as moving the page. Default is true
       scrollDirection: Axis.vertical,
       onPageChanged: _onPageChanged,
+      controller: _pageController,
       itemCount: _itemCount,
       itemBuilder: (context, index) => Container( // itemBuilder of PageView.builder is similar to or could be same as ListView.builder, as it takes context and index as arguments
         color: colors.elementAt(index),
