@@ -43,19 +43,19 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         children: [
           Offstage( // Creates a widget that visually hides its child
             offstage: _selectedIndex != 0,
-            child: VideoTimelineScreen(),
+            child: const VideoTimelineScreen(),
           ),
           Offstage(
             offstage: _selectedIndex != 1,
-            child: VideoTimelineScreen(),
+            child: const VideoTimelineScreen(),
           ),
           Offstage(
             offstage: _selectedIndex != 3,
-            child: VideoTimelineScreen(),
+            child: const VideoTimelineScreen(),
           ),
           Offstage(
             offstage: _selectedIndex != 4,
-            child: VideoTimelineScreen(),
+            child: const VideoTimelineScreen(),
           ),
         ],
       ),
