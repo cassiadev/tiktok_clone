@@ -69,9 +69,7 @@ class _VideoPostState extends State<VideoPost> with SingleTickerProviderStateMix
       value: 1.5, // default value
       duration: _animationDuration,
     );
-    _animationController.addListener(() {
-      setState(() {}); // By setState() every size in between the lowerBound and the upperBound of _animationController is shown
-    });
+
   }
 
   @override
@@ -102,8 +100,14 @@ class _VideoPostState extends State<VideoPost> with SingleTickerProviderStateMix
           Positioned.fill( // Positioned widget had better be the child right down to Stack always, not the child of IgnorePointer or else whatever
             child: IgnorePointer( // Ignores the click event of the FaIcon
               child: Center (
-                child: Transform.scale(
-                  scale: _animationController.value,
+                child: AnimatedBuilder(
+                  animation: _animationController,
+                  builder: (context, child) {
+                    return Transform.scale(
+                      scale: _animationController.value,
+                      child: child, // The one with AnimatedOpacity down below
+                    );
+                  },
                   child: AnimatedOpacity(
                     opacity: _isPaused ? 1 : 0,
                     duration: _animationDuration,
