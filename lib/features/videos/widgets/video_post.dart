@@ -20,7 +20,7 @@ class VideoPost extends StatefulWidget {
 }
 
 class _VideoPostState extends State<VideoPost> with SingleTickerProviderStateMixin{ // Added mixin for the AnimationController to make a ticker(which ticks at every frame of the animation) enabled just when the widget is displayed // By with keyword you can bring all the elements of a class with out extending it
-  final VideoPlayerController _videoPlayerController = VideoPlayerController.asset('assets/videos/20231001_181736.mp4');
+  late final VideoPlayerController _videoPlayerController;
   bool _isPaused = false;
   final Duration _animationDuration = const Duration(milliseconds: 200);
   late final AnimationController _animationController;
@@ -28,7 +28,7 @@ class _VideoPostState extends State<VideoPost> with SingleTickerProviderStateMix
   void _onVideoChange() {
     if (_videoPlayerController.value.isInitialized) {
       if (_videoPlayerController.value.duration == _videoPlayerController.value.position) { // videoPlayerController.value.position means current duration of the video playing
-        widget.onVideoFinished(); // Let State have an access to property of StetefulWidget by the keyword "widget."
+        widget.onVideoFinished(); // Lets State have an access to property of StetefulWidget by the keyword "widget."
       }
     }
   }
@@ -53,9 +53,11 @@ class _VideoPostState extends State<VideoPost> with SingleTickerProviderStateMix
   }
 
   void _initVideoPlayer() async {
+    _videoPlayerController = VideoPlayerController.asset('assets/videos/20231001_181736.mp4');
     await _videoPlayerController.initialize();
-    setState(() {});
+    await _videoPlayerController.setLooping(true);
     _videoPlayerController.addListener(_onVideoChange);
+    setState(() {});
   }
 
   @override
