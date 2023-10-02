@@ -27,8 +27,7 @@ class _VideoTimelineScreenState extends State<VideoTimelineScreen> {
   }
 
   void _onVideoFinished() {
-    return;
-    _pageController.nextPage( // No more auto next page in real TikTok reportedly
+    _pageController.nextPage(
       duration: _scrollDuration,
       curve: _scrollCurve,
     );
