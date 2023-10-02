@@ -19,8 +19,11 @@ class VideoPost extends StatefulWidget {
   State<VideoPost> createState() => _VideoPostState();
 }
 
-class _VideoPostState extends State<VideoPost> {
+class _VideoPostState extends State<VideoPost> with SingleTickerProviderStateMixin{ // Added mixin for the AnimationController
   final VideoPlayerController _videoPlayerController = VideoPlayerController.asset('assets/videos/20231001_181736.mp4');
+  bool _isPaused = false;
+  final Duration _animationDuration = const Duration(milliseconds: 200);
+  late final AnimationController _animationController;
 
   void _onVideoChange() {
     if (_videoPlayerController.value.isInitialized) {
@@ -39,9 +42,14 @@ class _VideoPostState extends State<VideoPost> {
   void _onTogglePause() {
     if (_videoPlayerController.value.isPlaying) {
       _videoPlayerController.pause();
+      _animationController.reverse();
     } else {
       _videoPlayerController.play();
+      _animationController.forward();
     }
+    setState(() {
+      _isPaused = !_isPaused;
+    });
   }
 
   void _initVideoPlayer() async {
@@ -54,6 +62,16 @@ class _VideoPostState extends State<VideoPost> {
   void initState() {
     super.initState();
     _initVideoPlayer();
+    _animationController = AnimationController(
+      vsync: this,
+      lowerBound: 1.0,
+      upperBound: 1.5,
+      value: 1.5, // default value
+      duration: _animationDuration,
+    );
+    _animationController.addListener(() {
+      setState(() {}); // By setState() every size in between the lowerBound and the upperBound of _animationController is shown
+    });
   }
 
   @override
@@ -81,12 +99,19 @@ class _VideoPostState extends State<VideoPost> {
               onTap: _onTogglePause,
             ),
           ),
-          const Positioned.fill( // Positioned widget had better be the child right down to Stack always, not the child of IgnorePointer or else whatever
+          Positioned.fill( // Positioned widget had better be the child right down to Stack always, not the child of IgnorePointer or else whatever
             child: IgnorePointer( // Ignores the click event of the FaIcon
               child: Center (
-                child: FaIcon(FontAwesomeIcons.play,
-                  color: Colors.white,
-                  size: Sizes.size52,
+                child: Transform.scale(
+                  scale: _animationController.value,
+                  child: AnimatedOpacity(
+                    opacity: _isPaused ? 1 : 0,
+                    duration: _animationDuration,
+                    child: const FaIcon(FontAwesomeIcons.play,
+                      color: Colors.white,
+                      size: Sizes.size52,
+                    ),
+                  ),
                 ),
               ),
             ),
