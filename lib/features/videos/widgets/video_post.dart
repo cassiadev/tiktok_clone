@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok_clone/constants/gaps.dart';
+import 'package:tiktok_clone/features/videos/widgets/video_button.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -120,6 +122,60 @@ class _VideoPostState extends State<VideoPost> with SingleTickerProviderStateMix
                   ),
                 ),
               ),
+            ),
+          ),
+          Positioned(
+            left: 20,
+            bottom: 20,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('@IMyMeMY',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: Sizes.size20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Gaps.v10,
+                Text('This is my text',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: Sizes.size16,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            right: 20,
+            bottom: 20,
+            child: Column(
+              children: [
+                CircleAvatar(
+                  radius: 25,
+                  backgroundColor: Colors.black,
+                  foregroundColor: Colors.white,
+                  foregroundImage: NetworkImage('https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/0722-0-21-1659275415.jpg?crop=1.00xw:0.753xh;0,0.0336xh&resize=980:*'),
+                  child: Text('IMyMeMy',
+                  ),
+                ),
+                Gaps.v28,
+                VideoButton(
+                  icon: FontAwesomeIcons.solidHeart,
+                  text: '2.9M',
+                ),
+                Gaps.v28,
+                VideoButton(
+                  icon: FontAwesomeIcons.solidCommentDots,
+                  text: '33K',
+                ),
+                Gaps.v28,
+                VideoButton(
+                  icon: FontAwesomeIcons.share,
+                  text: 'Share',
+                ),
+              ],
             ),
           ),
         ],
