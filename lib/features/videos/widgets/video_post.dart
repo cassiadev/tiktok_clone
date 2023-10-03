@@ -26,6 +26,7 @@ class _VideoPostState extends State<VideoPost> with SingleTickerProviderStateMix
   bool _isPaused = false;
   final Duration _animationDuration = const Duration(milliseconds: 200);
   late final AnimationController _animationController;
+  bool _seeMore = false;
 
   void _onVideoChange() {
     if (_videoPlayerController.value.isInitialized) {
@@ -60,6 +61,12 @@ class _VideoPostState extends State<VideoPost> with SingleTickerProviderStateMix
     await _videoPlayerController.setLooping(true);
     _videoPlayerController.addListener(_onVideoChange);
     setState(() {});
+  }
+
+  void _onSeeMoreTap() {
+    setState(() {
+      _seeMore = !_seeMore;
+    });
   }
 
   @override
@@ -130,7 +137,7 @@ class _VideoPostState extends State<VideoPost> with SingleTickerProviderStateMix
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('@IMyMeMY',
+                const Text('@IMyMeMY',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: Sizes.size20,
@@ -138,16 +145,42 @@ class _VideoPostState extends State<VideoPost> with SingleTickerProviderStateMix
                   ),
                 ),
                 Gaps.v10,
-                Text('This is my text',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: Sizes.size16,
+                SizedBox(
+                  width: Sizes.size96 + Sizes.size96 + Sizes.size20,
+                  child: GestureDetector(
+                    onTap: _onSeeMoreTap,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Expanded(
+                          child: Text('This is my text and you know what I am going to develop is a massive app',
+                            maxLines: _seeMore? 10 : 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: Sizes.size16,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.bottomRight,
+                          padding: const EdgeInsets.symmetric(horizontal: Sizes.size2),
+                          child: Text(
+                            _seeMore ? "" : "See more",
+                            style: const TextStyle(
+                              color: Colors.white54,
+                              fontSize: Sizes.size14,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
             ),
           ),
-          Positioned(
+          const Positioned(
             right: 20,
             bottom: 20,
             child: Column(
