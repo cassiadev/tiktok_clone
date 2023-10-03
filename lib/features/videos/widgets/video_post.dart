@@ -26,7 +26,7 @@ class _VideoPostState extends State<VideoPost> with SingleTickerProviderStateMix
   bool _isPaused = false;
   final Duration _animationDuration = const Duration(milliseconds: 200);
   late final AnimationController _animationController;
-  bool _seeMore = false;
+  bool _isSeeingMore = false;
 
   void _onVideoChange() {
     if (_videoPlayerController.value.isInitialized) {
@@ -65,7 +65,7 @@ class _VideoPostState extends State<VideoPost> with SingleTickerProviderStateMix
 
   void _onSeeMoreTap() {
     setState(() {
-      _seeMore = !_seeMore;
+      _isSeeingMore = !_isSeeingMore;
     });
   }
 
@@ -154,7 +154,7 @@ class _VideoPostState extends State<VideoPost> with SingleTickerProviderStateMix
                       children: [
                         Expanded(
                           child: Text('This is my text and you know what I am going to develop is a massive app',
-                            maxLines: _seeMore? 10 : 1,
+                            maxLines: _isSeeingMore ? 10 : 1,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
                               color: Colors.white,
@@ -166,7 +166,7 @@ class _VideoPostState extends State<VideoPost> with SingleTickerProviderStateMix
                           alignment: Alignment.bottomRight,
                           padding: const EdgeInsets.symmetric(horizontal: Sizes.size2),
                           child: Text(
-                            _seeMore ? "" : "See more",
+                            _isSeeingMore ? "" : "See more",
                             style: const TextStyle(
                               color: Colors.white54,
                               fontSize: Sizes.size14,
