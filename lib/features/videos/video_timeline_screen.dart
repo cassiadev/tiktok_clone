@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/videos/widgets/video_post.dart';
 
 class VideoTimelineScreen extends StatefulWidget {
@@ -34,6 +35,10 @@ class _VideoTimelineScreenState extends State<VideoTimelineScreen> {
     );
   }
 
+  Future<void> _onRefresh() {
+    return Future.delayed(const Duration(seconds: 3)); // onRefresh() must return a Future
+  }
+
   @override
   void dispose() {
     _pageController.dispose();
@@ -42,15 +47,22 @@ class _VideoTimelineScreenState extends State<VideoTimelineScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return PageView.builder(
-      pageSnapping: true, // If pageSnapping is set false, the sticky page snap does not happen as moving the page. Default is true
-      scrollDirection: Axis.vertical,
-      onPageChanged: _onPageChanged,
-      controller: _pageController,
-      itemCount: _itemCount,
-      itemBuilder: (context, index) => VideoPost(
-        onVideoFinished: _onVideoFinished,
-        index: index,
+    return RefreshIndicator(
+      onRefresh: _onRefresh,
+      displacement: 50,
+      edgeOffset: 10,
+      color: Theme.of(context).primaryColor,
+      strokeWidth: Sizes.size3,
+      child: PageView.builder(
+        pageSnapping: true, // If pageSnapping is set false, the sticky page snap does not happen as moving the page. Default is true
+        scrollDirection: Axis.vertical,
+        onPageChanged: _onPageChanged,
+        controller: _pageController,
+        itemCount: _itemCount,
+        itemBuilder: (context, index) => VideoPost(
+          onVideoFinished: _onVideoFinished,
+          index: index,
+        ),
       ),
     );
   }
