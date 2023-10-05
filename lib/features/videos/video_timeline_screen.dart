@@ -49,7 +49,7 @@ class _VideoTimelineScreenState extends State<VideoTimelineScreen> {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: _onRefresh,
-      displacement: 50,
+      displacement: 40,
       edgeOffset: 10,
       color: Theme.of(context).primaryColor,
       strokeWidth: Sizes.size3,
