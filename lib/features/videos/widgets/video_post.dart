@@ -78,6 +78,7 @@ class _VideoPostState extends State<VideoPost> with SingleTickerProviderStateMix
       context: context,
       builder: (context) => const VideoComments(),
       backgroundColor: Colors.transparent,
+      isScrollControlled: true, // Enables changing the size of the modal bottom sheet, Should be true when used in ListView or GridView
     );
     _onTogglePause();
   }
