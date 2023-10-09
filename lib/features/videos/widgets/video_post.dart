@@ -22,7 +22,7 @@ class VideoPost extends StatefulWidget {
   State<VideoPost> createState() => _VideoPostState();
 }
 
-class _VideoPostState extends State<VideoPost> with SingleTickerProviderStateMixin{ // Added mixin for the AnimationController to make a ticker(which ticks at every frame of the animation) enabled just when the widget is displayed // By with keyword you can bring all the elements of a class with out extending it
+class _VideoPostState extends State<VideoPost> with SingleTickerProviderStateMixin { // Added mixin for the AnimationController to make a ticker(which ticks at every frame of the animation) enabled just when the widget is displayed // By with keyword you can bring all the elements of a class with out extending it
   late final VideoPlayerController _videoPlayerController;
   bool _isPaused = false;
   final Duration _animationDuration = const Duration(milliseconds: 200);

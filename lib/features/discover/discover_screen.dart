@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/main_navigation/main_navigation_screen.dart';
+import 'package:tiktok_clone/features/videos/video_timeline_screen.dart';
 
 final tabs = [
   'Top',
@@ -22,14 +24,38 @@ class DiscoverScreen extends StatefulWidget {
 }
 
 class _DiscoverScreenState extends State<DiscoverScreen> {
-  final TextEditingController _textEditingController = TextEditingController(text: 'Initial Text');
+  final TextEditingController _textEditingController = TextEditingController();
+  bool _isInputtingSearchValue = false;
 
   void _onSearchTextChanged(String value) {
-    print('Searching for $value');
+    setState(() {
+      _isInputtingSearchValue = value.isNotEmpty;
+    });
   }
 
   void _onSearchTextSubmitted(String value) {
     print('Submitted $value');
+  }
+
+  void _onBackButtonTap() {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => const MainNavigationScreen(),
+      ),
+    );
+  }
+
+  void _onXmarkTap() {
+    setState(() {
+      _textEditingController.text = '';
+      _isInputtingSearchValue = false;
+    });
+  }
+
+  void _dismissSearchKeyboardAsTabIndexChanged(int pageNum) {
+    if (pageNum != 0) {
+      FocusScope.of(context).unfocus();
+    }
   }
 
   @override
@@ -45,13 +71,78 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: CupertinoSearchTextField(
-            controller: _textEditingController,
-            onChanged: _onSearchTextChanged,
-            onSubmitted: _onSearchTextSubmitted,
+          // title: CupertinoSearchTextField(
+          //   controller: _textEditingController,
+          //   onChanged: _onSearchTextChanged,
+          //   onSubmitted: _onSearchTextSubmitted,
+          // ),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              GestureDetector(
+                onTap: _onBackButtonTap,
+                child: const FaIcon(FontAwesomeIcons.chevronLeft,
+                  color: Colors.black87,
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: Sizes.size18),
+                  height: Sizes.size44,
+                  child: TextField(
+                    controller: _textEditingController,
+                    onChanged: _onSearchTextChanged,
+                    onSubmitted: _onSearchTextSubmitted,
+                    textInputAction: TextInputAction.search,
+                    cursorColor: Theme.of(context).primaryColor,
+                    decoration: InputDecoration(
+                      hintText: 'Search...',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(Sizes.size12),
+                        borderSide: BorderSide.none,
+                      ),
+                      filled: true,
+                      fillColor: Colors.grey.shade200,
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: Sizes.size12,
+                        vertical: Sizes.size10,
+                      ),
+                      prefixIcon: Container(
+                        width: Sizes.size20,
+                        alignment: Alignment.center,
+                        child: FaIcon(FontAwesomeIcons.magnifyingGlass,
+                          color: Colors.grey.shade600,
+                          size: Sizes.size16,
+                        ),
+                      ),
+                      suffixIcon: Container(
+                        width: Sizes.size20,
+                        alignment: Alignment.center,
+                        child: AnimatedOpacity(
+                          opacity: _isInputtingSearchValue ? 1 : 0,
+                          duration: const Duration(milliseconds: 200),
+                          child: GestureDetector(
+                            onTap: _onXmarkTap,
+                            child: FaIcon(FontAwesomeIcons.solidCircleXmark,
+                              color: Colors.grey.shade600,
+                              size: Sizes.size16,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const FaIcon(FontAwesomeIcons.sliders,
+                color: Colors.black87,
+              ),
+            ],
           ),
           elevation: 1, // Works as an underline for the appBar
           bottom: TabBar( // bottom has the type of PreferredSizeWidget, wishes to be at a certain size but does not constrain the size of its children, which usually comes as a TabBar
+            onTap: _dismissSearchKeyboardAsTabIndexChanged,
+            // controller: _tabController,
             padding: const EdgeInsets.symmetric(
               horizontal: Sizes.size16,
             ),
