@@ -23,9 +23,20 @@ class DiscoverScreen extends StatefulWidget {
   State<DiscoverScreen> createState() => _DiscoverScreenState();
 }
 
-class _DiscoverScreenState extends State<DiscoverScreen> {
+class _DiscoverScreenState extends State<DiscoverScreen> with SingleTickerProviderStateMixin {
   final TextEditingController _textEditingController = TextEditingController();
+  late TabController _tabController;
   bool _isInputtingSearchValue = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(
+      length: tabs.length,
+      vsync: this,
+    );
+    _tabController.addListener(_dismissSearchKeyboardAsTabIndexChanged);
+  }
 
   void _onSearchTextChanged(String value) {
     setState(() {
@@ -52,8 +63,8 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
     });
   }
 
-  void _dismissSearchKeyboardAsTabIndexChanged(int pageNum) {
-    if (pageNum != 0) {
+  void _dismissSearchKeyboardAsTabIndexChanged() {
+    if (_tabController.indexIsChanging) {
       FocusScope.of(context).unfocus();
     }
   }
@@ -61,6 +72,8 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
   @override
   void dispose() {
     _textEditingController.dispose(); // Don't forget to dispose the controller
+    _tabController.removeListener(_dismissSearchKeyboardAsTabIndexChanged);
+    _tabController.dispose();
     super.dispose();
   }
 
@@ -141,7 +154,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
           ),
           elevation: 1, // Works as an underline for the appBar
           bottom: TabBar( // bottom has the type of PreferredSizeWidget, wishes to be at a certain size but does not constrain the size of its children, which usually comes as a TabBar
-            onTap: _dismissSearchKeyboardAsTabIndexChanged,
+            controller: _tabController,
             // controller: _tabController,
             padding: const EdgeInsets.symmetric(
               horizontal: Sizes.size16,
