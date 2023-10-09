@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 
 final tabs = [
@@ -51,13 +53,59 @@ class DiscoverScreen extends StatelessWidget {
                 crossAxisCount: 2,
                 crossAxisSpacing: Sizes.size10,
                 mainAxisSpacing: Sizes.size10,
-                childAspectRatio: 9/16,
+                childAspectRatio: 9 / 24,
               ),
-              itemBuilder: (context, index) => Container(
-                color: Colors.teal,
-                child: Center(
-                  child: Text('$index'),
-                ),
+              itemBuilder: (context, index) => Column(
+                children: [
+                  AspectRatio(
+                    aspectRatio: 9 / 16,
+                    child: FadeInImage.assetNetwork(
+                      fit: BoxFit.cover,
+                      placeholder: 'assets/images/IMG_0073.JPG', // The image in assets folders is used as a placeholder
+                      image: 'https://images.unsplash.com/photo-1673844969019-c99b0c933e90?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80',
+                    ),
+                  ),
+                  Gaps.v10,
+                  const Text('This is a very long caption for my TikTok that I am uploading now what what',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: Sizes.size16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Gaps.v8,
+                  DefaultTextStyle(
+                    style: TextStyle(
+                      color: Colors.grey.shade600,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    child: Row(
+                      children: [
+                        const CircleAvatar(
+                          backgroundImage: NetworkImage(
+                            'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/0722-0-21-1659275415.jpg?crop=1.00xw:0.753xh;0,0.0336xh&resize=980:*',
+                          ),
+                          radius: 12,
+                        ),
+                        Gaps.h4,
+                        const Expanded(
+                          child: Text('My avatar has a very long txt to describe itself wow so lengthy',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Gaps.h4,
+                        FaIcon(FontAwesomeIcons.heart,
+                          size: Sizes.size16,
+                          color: Colors.grey.shade600,
+                        ),
+                        Gaps.h2,
+                        const Text('2.5M'),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
             for (var tab in tabs.skip(1)) // Skipping the 0th one because of the GridView above
