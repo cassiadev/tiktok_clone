@@ -102,6 +102,7 @@ class _VideoPostState extends State<VideoPost> with SingleTickerProviderStateMix
 
   @override
   void dispose() {
+    _animationController.dispose();
     _videoPlayerController.dispose();
     super.dispose();
   }

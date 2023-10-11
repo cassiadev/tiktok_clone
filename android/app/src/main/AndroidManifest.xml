@@ -2,6 +2,8 @@
     package="com.example.tiktok_clone">
    <application
         android:label="tiktok_clone"
+        android:hardwareAccelerated="false"
+        android:largeHeap="true"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
